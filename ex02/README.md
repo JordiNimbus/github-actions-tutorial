@@ -59,9 +59,9 @@ The `actions/setup-python@v5` action installs Python and caches dependencies for
 Add a step to install Pytest:
 ```yml
   - name: Install dependencies
-    run: |
-      python -m pip install --upgrade pip
-      pip install pytest
+      run: |
+            python -m pip install --upgrade pip
+                  pip install pytest
 ```
 
 Note: Upgrading pip prevents potential dependency issues. Installing pytest enables test execution. The | allows multi-line commands in YAML for clarity.
