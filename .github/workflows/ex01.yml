@@ -1,4 +1,4 @@
-name: ex01
+name: ex01-workflow
 
 on:
   workflow_dispatch:
@@ -11,10 +11,14 @@ jobs:
     steps:
     - name: Check out this repo
       uses: actions/checkout@v4
+    
     - name: Fetch author name from secrets
       env:
         AUTHOR_NAME: ${{ secrets.AUTHOR_NAME }}
       run: |-
-        AUTHOR="${AUTHOR_NAME}"
+        # Use the author name from secrets, fallback to default if not set
+        AUTHOR="${AUTHOR_NAME:-junji+ito}"
+        # Replace spaces with + for URL encoding
         AUTHOR_ENCODED=$(echo "$AUTHOR" | sed 's/ /+/g')
-        curl -s "https://openlibrary.org/search/authors.json?q=${AUTHOR_ENCODED}" > "ex01/$(date +%F)-${AUTHOR}.json"
+        echo "Fetching data for author: $AUTHOR"
+        curl -s "https://openlibrary.org/search/authors.json?q=${AUTHOR_ENCODED}" > "$(date +%F)-authors.json"
